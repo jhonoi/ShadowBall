@@ -1,0 +1,33 @@
+.setTile{
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 2px 9px 20px #E0E6FF;
+    width: 100%;
+    padding-bottom: 40%;
+    position: relative;
+}
+
+.setTitle{
+    position: absolute;
+    font-size: 1.3vw;
+    left: 10%;
+    top: 15%;
+    font-weight: 500;
+}
+
+.cardCount{
+    position: absolute;
+    font-size: 1vw;
+    font-weight: 100;
+    left: 10%;
+    bottom: 15%;
+    color: #C4C4C4;
+}
+
+.setTile > .md-18{
+    color: #C4C4C4;
+    position: absolute;
+    top: 15%;
+    right: 5%;
+    font-size: 1.5vw;
+}

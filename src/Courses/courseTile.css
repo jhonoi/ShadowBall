@@ -1,0 +1,49 @@
+.courseTile{
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 2px 9px 20px #E0E6FF;
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+}
+
+.courseTile > .header{
+    position: absolute;
+    width: 70%;
+    left: 15%;
+    font-size: 1.4vw;
+    font-weight: 500;
+    top: 30px;
+    display: grid;
+    grid-template-columns: 20% auto;
+    grid-gap: 1.5%;
+}
+
+.header > span{
+    justify-self: start;
+    align-self: center;
+}
+
+.courseTile > .infoContainer{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.infoContainer > .infoNum{
+    font-size: 5vw;
+    font-weight: 100;
+}
+
+.infoContainer > .infoType{
+    font-size: 1.4vw;
+    font-weight: 500;
+}
+
+.material-icons.md-18.icon{
+    font-size: 2.5vw;
+    justify-self: start;
+}

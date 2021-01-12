@@ -1,0 +1,39 @@
+.calTile{
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 2px 9px 20px #E0E6FF;
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+}
+
+.calTile > .date{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 1vw;
+    color: #5D788B;
+}
+
+.calTile > .day{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2vw;
+    font-weight: 100;
+    color: #AEC5D5;
+}
+
+.calTile > .tagContainer{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tagContainer > .tag{
+    font-size: 0.8vw;
+    margin: 10px auto 10px auto;
+}

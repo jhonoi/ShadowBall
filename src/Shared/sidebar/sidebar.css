@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Rosario:wght@400;500;600;700&display=swap');
+
+#sidebar{
+    background-color: #f8f9fd;
+    position: fixed;
+    left: 0;
+    height: 100%;
+    width: 17%;
+}
+
+.logoContainer{
+    display: grid;
+    grid-template-columns: 25% auto;
+    grid-gap: 0.5em;
+    margin: 30px 10px 50px 10px;
+}
+
+.material-icons.md-24{
+    font-size: 3em;
+    color: #5D788B;
+    justify-self: end;
+}
+
+.logoText{
+    display: block;
+    font-size: 1.6em;
+    font-family: 'Rosario';
+    font-weight: 700;
+    color: #46B5E8;
+    justify-self: start;
+    align-self: center;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+li{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
