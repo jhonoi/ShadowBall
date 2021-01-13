@@ -4,6 +4,7 @@ import Body from '../Shared/body'
 import AddIcon from '../Shared/add.js'
 import DeleteIcon from '../Shared/delete.js'
 import CardPopUp from './cardPopUp'
+import DeletePopUp from '../Shared/deletePopUp/deletePopUp'
 import './set.css'
 
 const Set = () => {
@@ -16,8 +17,14 @@ const Set = () => {
     ])
 
     let [index, setIndex] = useState(0)
-    let [showPopUp, setShowPopUp] = useState(false)
+    let [showCreatePopUp, setShowCreatePopUp] = useState(false)
+    let [showDeletePopUp, setShowDeletePopUp] = useState(false)
     let initialRender = useRef(true)
+    let justDeleted = useRef(false)
+    let deletedLastItem = useRef(false)
+    let [currentCard, setCurrentCard] = useState({q: '', a: ''})
+    let editClicked = useRef(false)
+    let operationMode = useRef('')
 
     const nextCard = () => {
         if(index !== (arr.length - 1)){
@@ -46,24 +53,73 @@ const Set = () => {
     }
 
     const createPopUp = () => {
-        setShowPopUp(!showPopUp)
+        editClicked.current = true
+        operationMode.current = 'Create'
+        setCurrentCard({q: '', a: ''})
+    }
+
+    const editPopUp = () => {
+        editClicked.current = true
+        operationMode.current = 'Edit'
+        setCurrentCard({q: arr[index].question, a: arr[index].ans})
+    }
+
+    const deletePopUp = () => {
+        setShowDeletePopUp(!showDeletePopUp)
     }
 
     const addToArr = (q, a) => {
         setArr([...arr, {question: q, ans: a}])
     }
 
+    const removeFromArr = () => {
+        justDeleted.current = true
+        if(index === (arr.length - 1)){
+            deletedLastItem.current = true
+            setIndex(index - 1)
+        }else{
+            setArr(arr.filter(item => item !== arr[index]))
+        }
+    }
+
+    const editItemInArr = (q, a) => {
+        setArr(arr.map((item)=>{
+            if(item === arr[index]){
+                item = {question: q, ans: a}
+            }
+            return item
+        }))
+    }
+
     useEffect(() => {
         if(initialRender.current){
             initialRender.current = false
+        }else if(justDeleted.current){
+            justDeleted.current = false
+            setShowDeletePopUp(!showDeletePopUp)
         }else{
-            setShowPopUp(!showPopUp)
+            setShowCreatePopUp(!showCreatePopUp)
         }
     }, [arr])
 
+    useEffect(() => {
+        if(!initialRender.current && deletedLastItem.current){
+            deletedLastItem.current = false
+            setArr(arr.filter(item => item !== arr[index + 1]))
+        }
+    }, [index])
+
+    useEffect(() => {
+        if(!initialRender.current && editClicked.current){
+            editClicked.current = false
+            setShowCreatePopUp(!showCreatePopUp)
+        }
+    }, [currentCard])
+
     return(
         <div className='setContainer setViewContainer'>
-            {showPopUp ? <CardPopUp create={addToArr} hide={createPopUp} /> : null}
+            {showCreatePopUp ? <CardPopUp operation={operationMode.current} term={currentCard.q} definition={currentCard.a} edit={editItemInArr} create={addToArr} hide={createPopUp} /> : null}
+            {showDeletePopUp ? <DeletePopUp remove={removeFromArr} item='card' hide={deletePopUp} /> : null}
             <Body>
                 <Header title='Subconsciousness Set' color='#63DD67' />
                 <div className='setBackground'>
@@ -77,8 +133,8 @@ const Set = () => {
                         </div>
                         <div className='setOptionsContainer'>
                             <div onClick={() => createPopUp()} style={{backgroundColor: '#B2E7FF'}} className='iconHolder'><AddIcon class='setIcon' color='#FFFFFF' /></div>
-                            <div onClick={() => createPopUp()} style={{backgroundColor: '#D4FBD6'}} className='iconHolder'><i className="material-icons md-18">edit</i></div>
-                            <div onClick={() => createPopUp()} style={{backgroundColor: '#FFE9E8'}} className='iconHolder'><DeleteIcon class='setIcon' color='#FFFFFF' /></div>
+                            <div onClick={() => editPopUp()} style={{backgroundColor: '#D4FBD6'}} className='iconHolder'><i className="material-icons md-18">edit</i></div>
+                            <div onClick={() => deletePopUp()} style={{backgroundColor: '#FFE9E8'}} className='iconHolder'><DeleteIcon class='setIcon' color='#FFFFFF' /></div>
                         </div>
                     </div>
                 </div>

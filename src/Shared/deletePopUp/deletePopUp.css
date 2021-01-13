@@ -1,0 +1,16 @@
+.deletePrompt{
+    font-size: 1.2em;
+    font-weight: 400;
+    color: #5D788B;
+    margin-bottom: 20px;
+}
+
+.deleteButton{
+    background-color: #FFE9E8;
+    color: #FF746A;
+}
+
+.cancelButton{
+    background-color: #D4FBD6;
+    color: #63DD67;
+}
