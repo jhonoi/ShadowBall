@@ -7,7 +7,7 @@ import Sets from './Sets/sets'
 import Set from './Set/set'
 import Assignments from './Assignments/assignments'
 import './App.css'
-import Notes from './Note'
+import Notes from './notes'
 
 const App = () => {
   return (

@@ -1,8 +1,12 @@
 #header{
-    width: 100%;
+    background-color: #ffffff;
+    width: 83%;
+    height: 30px;
     padding: 35px 0 35px 0px;
     border-bottom: 1px solid #F1F4FF;
-    margin-bottom: 35px;
+    position: fixed;
+    top: 0;
+    left: 17%;
 }
 
 #text{
