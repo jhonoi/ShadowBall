@@ -3,11 +3,12 @@ import Tag from '../tag'
 import './calenderTile.css'
 
 const CalenderTile = (props) => {
-
     if(!Array.isArray(props.details)){
         return(
         <div className='calTile'>
-            <div className='date'>{props.details}</div>
+        <div className='date'>{props.details}</div>
+        <p>{props.assignments[0].Title}</p>
+        <p>{console.log(props.assignments)}</p>
         </div>
         )
     }

@@ -1,13 +1,13 @@
 let assignmentsDB=[{
-    Title:"French Hw",
+    "Title":"French Hw",
     dueDate:[4,1,2021],
     desc:"study all female pronounciations of the word aller",
     type:"Homework"
                 
 },{
-    Title:"French Hw",
-    dueDate:[31,1,2021],
-    desc:"study all female pronounciations of the word aller",
+    "Title":"stuffs",
+    dueDate:[4,1,2021],
+    desc:"ssomne other stuffs of the word aller",
     type:"Presentation"
                 
 }];
