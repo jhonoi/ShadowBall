@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import {notes} from './databse.js'
 import {Editor, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding} from 'draft-js';
 import Body from './Shared/body'
+import Header from './Shared/header'
 import './notes.css'
 
 const Note = ()=>{
@@ -122,28 +123,31 @@ const Note = ()=>{
 
     //END OF EDITOR CODE
     return (
-        <Body>
-            <div className='notesContainer'>
-                <Editor
-                    customStyleMap={styleMap} 
-                    editorState={editorState}
-                    onChange={setEditorState}
-                    handleKeyCommand={handleKeyCommand}
-                    keyBindingFn={KeyBindingFunct}
-                />
+        <div className='notes'>
+            <Body>
+                <Header title='Psychology Notes' color='#63DD67' />
+                <div className='editorContainer'>
+                    <Editor
+                        customStyleMap={styleMap} 
+                        editorState={editorState}
+                        onChange={setEditorState}
+                        handleKeyCommand={handleKeyCommand}
+                        keyBindingFn={KeyBindingFunct}
+                    />
+                </div>
                 <div className='notesControlsContainer'>
                     <div className='notesEffectsContainer'>
                         <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand('HEADING');}}>Heading</button>
                         <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand("HIGHLIGHT")}}>Highlight</button>
                     </div>
                     <div className='notesNavContainer'>
-                        <button onClick={prevPage}>Prev Page</button>
+                        <i onClick={prevPage} className="material-icons md-18">navigate_before</i>
                         <span className='cardPosition'>{page.currpage}/{page.totalpages}</span>
-                        <button onClick={nextPage}>Next Page</button>
+                        <i onClick={nextPage} className="material-icons md-18">navigate_next</i>
                     </div>
                 </div>
-            </div>
-        </Body>
+            </Body>
+        </div>
     )    
 }
 

@@ -1,14 +1,25 @@
-.notesContainer{
-    display: grid;
-    grid-template-columns: auto 350px;
+.notes{
+    width: 100%;
 }
 
+.editorContainer{
+    width: calc(100% - 350px);
+}
+
+
+
 .notesControlsContainer{
+    width: 350px;
+    height: 100%;
+    position: fixed;
+    right: 0;
+    top: 101px;
     border-left: 1px solid #F1F4FF;
     background-color: white;
 }
 
 .notesEffectsContainer{
+    margin-top: 30px;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -23,7 +34,18 @@
 }
 
 .notesNavContainer{
+    margin-top: 30px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notesNavContainer > .md-18{
+    font-size: 4vw;
+    color: #C9D4FD;
+    user-select: none;
+    cursor: pointer;
 }
 
 div.DraftEditor-root {
@@ -34,7 +56,7 @@ div.DraftEditor-root {
     height: 900px;
     width: 700px;
     overflow-y: auto;
-    margin: auto;
+    margin: 30px auto;
 }
 
 /* width */
