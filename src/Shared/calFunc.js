@@ -23,7 +23,7 @@ function CalFunc(mon) {
             prevMonth = prevMonth - (dayofW);
             for (var i = 0; i < dayofW; i++) {
                 prevMonth++;
-                dates[z][i] = prevMonth;
+                dates[z][i] = prevMonth.toString();
             }
         }
 
@@ -33,7 +33,7 @@ function CalFunc(mon) {
             let nxtDays = 1;
             for (var c = dayofW + 1; c < 7; c++) {
 
-                dates[z][c] = nxtDays;
+                dates[z][c] = nxtDays.toString();
                 nxtDays++;
             }
         }

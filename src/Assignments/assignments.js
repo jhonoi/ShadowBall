@@ -4,11 +4,12 @@ import Body from '../Shared/body'
 import Header from '../Shared/header'
 import CalenderTile from '../Shared/calenderTile/calenderTile'
 import CalFunc from '../Shared/calFunc'
+import Assfunc from './assFunc'
 
 const Assignments = () => {
     const [mon, setD] = useState({
-        dayss: 0,
-        dayofW: 0
+        dayss: new Date().getMonth(),
+        dayofW: new Date().getMonth()
     })
  
     const prevMonth = () => {
@@ -42,12 +43,15 @@ const Assignments = () => {
             }
         })
     }
-
     let dummyAssignments = CalFunc(mon)
     console.log(dummyAssignments)
+    
+    
+    
+    
 
     const calenderFunc = (item) => {
-        return item.map((day)=>{
+        return item.map((day)=>{console.log(Assfunc(day,mon.dayofW+1));
             return (<CalenderTile key={Math.random() * Math.random()} details={day} usesDay={false} />)
         })
     }
