@@ -121,21 +121,30 @@ const Note = ()=>{
     }
 
     //END OF EDITOR CODE
-    return (<Body>
-        <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand("HIGHLIGHT")}}>Highlight</button>
-                <button onMouseDown={(e)=>{
-                    e.preventDefault(); handleKeyCommand('HEADING');}}>Heading</button>
-                    <Editor
-                        customStyleMap={styleMap} 
-                        editorState={editorState}
-                        onChange={setEditorState}
-                        handleKeyCommand={handleKeyCommand}
-                        keyBindingFn={KeyBindingFunct}
-                    />
-                <button onClick={prevPage}>Prev Page</button>
-                <p>{page.currpage}/{page.totalpages}</p>
-                <button onClick={nextPage}>Next Page</button>
-    </Body>)    
+    return (
+        <Body>
+            <div className='notesContainer'>
+                <Editor
+                    customStyleMap={styleMap} 
+                    editorState={editorState}
+                    onChange={setEditorState}
+                    handleKeyCommand={handleKeyCommand}
+                    keyBindingFn={KeyBindingFunct}
+                />
+                <div className='notesControlsContainer'>
+                    <div className='notesEffectsContainer'>
+                        <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand('HEADING');}}>Heading</button>
+                        <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand("HIGHLIGHT")}}>Highlight</button>
+                    </div>
+                    <div className='notesNavContainer'>
+                        <button onClick={prevPage}>Prev Page</button>
+                        <span className='cardPosition'>{page.currpage}/{page.totalpages}</span>
+                        <button onClick={nextPage}>Next Page</button>
+                    </div>
+                </div>
+            </div>
+        </Body>
+    )    
 }
 
 export default Note;

@@ -1,3 +1,31 @@
+.notesContainer{
+    display: grid;
+    grid-template-columns: auto 350px;
+}
+
+.notesControlsContainer{
+    border-left: 1px solid #F1F4FF;
+    background-color: white;
+}
+
+.notesEffectsContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.notesEffectsContainer > button{
+    padding: 10px 30px;
+    background-color: #B2E7FF;
+    color: #46B5E8;
+    font-weight: 700;
+    border: none;
+}
+
+.notesNavContainer{
+    width: 100%;
+}
+
 div.DraftEditor-root {
     background-color: #FFFFFF;
     border-radius: 10px;
