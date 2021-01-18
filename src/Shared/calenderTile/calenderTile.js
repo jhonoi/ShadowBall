@@ -1,13 +1,22 @@
 import React from 'react'
+import Tag from '../tag'
 import './calenderTile.css'
 
 const CalenderTile = (props) => {
+
+    if(!Array.isArray(props.details)){
+        return(
+        <div className='calTile'>
+            <div className='date'>{props.details}</div>
+        </div>
+        )
+    }
 
     if(props.details.length === 2){     //If there arent any assignments for this day
         return (
             <div className='calTile'>
                 <div className='date'>{props.details[1]}</div>
-                <div className='day'>{props.details[0]}</div>
+                {props.usesDay ? <div className='day'>{props.details[0]}</div> : null}
             </div>
         )
     }else{
@@ -27,7 +36,7 @@ const CalenderTile = (props) => {
                 <div className='tagContainer'>
                 {newArr.map((item) => {
                     return(
-                        <div className='tag' key={newArr.indexOf(item)}>{item}</div>
+                        <Tag title={item} key={newArr.indexOf(item)} />
                     )
                 })}
                 {props.details.length > 5 ? <div style={{color: '#8F99A0', backgroundColor:'#DEE7ED'}} className='tag'>{remainding} More</div> : null}

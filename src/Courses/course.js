@@ -2,7 +2,7 @@ import React from 'react'
 import './course.css'
 import Body from '../Shared/body'
 import Header from '../Shared/header'
-import CalenderTile from './calenderTile'
+import CalenderTile from '../Shared/calenderTile/calenderTile'
 import CourseTile from './courseTile'
 
 let dummyAssignments = [
@@ -16,7 +16,7 @@ let dummyAssignments = [
 ]
 
 const calenderFunc = (item) => {
-    return(<CalenderTile key={dummyAssignments.indexOf(item)} details={item} />)
+    return(<CalenderTile key={dummyAssignments.indexOf(item)} details={item} usesDay={true} />)
 }
 
 const Course = () => {

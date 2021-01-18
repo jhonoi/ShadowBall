@@ -1,11 +1,44 @@
 .tag{
     display: block;
-    background-color: #D4F2FF;
-    color: #46B5E8;
     border-radius: 20px;
     padding: 5px;
     font-size: 0.9em;
     font-weight: bold;
     text-align: center;
     width: 45%;
+}
+
+.redTagTheme{
+    color: #FF746A;
+    background-color: #FFE9E8;
+}
+
+.orangeTagTheme{
+    color: #FFBF58;
+    background-color: #FFEAC8;
+}
+
+.yellowTagTheme{
+    color: #FFFF6E;
+    background-color: #FFFFB1;
+}
+
+.greenTagTheme{
+    color: #63DD67;
+    background-color: #D4FBD6;
+}
+
+.blueTagTheme{
+    color: #46B5E8;
+    background-color: #B2E7FF;
+}
+
+.tealTagTheme{
+    color: #0097A7;
+    background-color: #AEF7FF;
+}
+
+.purpleTagTheme{
+    color: #9A7CE4;
+    background-color: #DFD2FF;
 }

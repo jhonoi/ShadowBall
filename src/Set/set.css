@@ -23,6 +23,8 @@
     padding-left: 30px;
     user-select: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 /* width */
@@ -96,11 +98,6 @@
     display: flex;
     justify-content: flex-end;
 }
-
-/*.iconBackground{
-    background-color: #C9D4FD;
-    height: 24px;
-}*/
 
 .setOptionsContainer > .iconHolder {
     display:flex;

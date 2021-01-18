@@ -5,7 +5,9 @@ import Course from './Courses/course'
 import Sidebar from './Shared/sidebar/sidebar'
 import Sets from './Sets/sets'
 import Set from './Set/set'
+import Assignments from './Assignments/assignments'
 import './App.css'
+import Notes from './Note'
 
 const App = () => {
   return (
@@ -24,6 +26,12 @@ const App = () => {
           </Route>
           <Route path='/flashcards' exact>
             <Set />
+          </Route>
+          <Route path='/assignments' exact>
+            <Assignments />
+          </Route>
+          <Route path='/notes' exact>
+            <Notes />
           </Route>
         </Switch>
       </Router>

@@ -1,0 +1,35 @@
+.createPrompt{
+    margin-bottom: 30px;
+}
+
+.createName{
+    display: block;
+    width: 90%;
+    padding: 10px 5%;
+    margin-bottom: 30px;
+    border: none;
+    background: #F8F9FD;
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    line-height: 1.5em;
+    font-weight: 300;
+    color: #5D788B;
+    outline: none;
+}
+
+.createName:focus{
+    border: 1px solid #E4E8F5;
+}
+
+.colorContainer{
+    width: 100%;
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.colorOption{
+    width: 10%;
+    padding-bottom: 10%;
+    border-radius: 50%;
+    margin-right: 3%;
+}
