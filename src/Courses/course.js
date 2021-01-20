@@ -1,25 +1,28 @@
-import React from 'react'
+import React,{useState} from 'react'
 import './course.css'
 import Body from '../Shared/body'
 import Header from '../Shared/header'
 import CalenderTile from '../Shared/calenderTile/calenderTile'
 import CourseTile from './courseTile'
+import {WeekFunc} from '../Shared/calFunc'
 
-let dummyAssignments = [
-    ['S', '1'],
-    ['M', '2', 'Exam', 'Project', 'Paper', 'Quiz'],
-    ['T', '3'],
-    ['W', '4'],
-    ['T', '5', 'Quiz'],
-    ['F', '6', 'Paper', 'Quiz', 'Project', 'Presentation', 'Exam'],
-    ['S', '7']
-]
+import Assfunc from '../Assignments/assFunc'
 
-const calenderFunc = (item) => {
-    return(<CalenderTile key={dummyAssignments.indexOf(item)} details={item} usesDay={true} />)
-}
+
 
 const Course = () => {
+    const [mon, setD] = useState({
+        dayss: new Date().getMonth(),
+        dayofW: new Date().getMonth()
+    })
+    let dummyAssignments=WeekFunc(mon);
+    console.log(dummyAssignments);
+    
+
+    const calenderFunc = (item) => {
+            let assignments =Assfunc(item,mon.dayofW+1);
+            return (<CalenderTile key={Math.random() * Math.random()} assignments={assignments} details={item} usesDay={false} />)
+    }
     return(
         <div id='course'>
             <Body>

@@ -1,3 +1,4 @@
+import {useState} from "react"
 function CalFunc(mon) {
     const dates = [
         [],
@@ -44,5 +45,27 @@ function CalFunc(mon) {
     }
     return dates
 }
+function WeekFunc(mon){
+    
+
+    let dates=CalFunc(mon);
+    let currDay=new Date().getDate();
+    let currweek; //holds index of the week we want
+    function Checkweek(day) {
+        return day === currDay;
+      }
+      
+    for(var x=0;x<dates.length;x++)
+    {
+        
+        if(dates[x].findIndex(Checkweek)>-1)
+        {
+            currweek=x;
+        }
+        
+    }
+    return dates[currweek];
+}
 
 export default CalFunc
+export {WeekFunc}

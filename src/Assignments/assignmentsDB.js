@@ -6,7 +6,31 @@ let assignmentsDB=[{
                 
 },{
     "Title":"stuffs",
-    dueDate:[4,1,2021],
+    dueDate:[19,1,2021],
+    desc:"ssomne other stuffs of the word aller",
+    type:"Presentation"
+                
+},{
+    "Title":"stuffs",
+    dueDate:[31,1,2021],
+    desc:"ssomne other stuffs of the word aller",
+    type:"Homework"
+                
+},{
+    "Title":"stuffs",
+    dueDate:[31,1,2021],
+    desc:"ssomne other stuffs of the word aller",
+    type:"Presentation"
+                
+},{
+    "Title":"stuffs",
+    dueDate:[31,1,2021],
+    desc:"ssomne other stuffs of the word aller",
+    type:"Presentation"
+                
+},{
+    "Title":"stuffs",
+    dueDate:[31,1,2021],
     desc:"ssomne other stuffs of the word aller",
     type:"Presentation"
                 

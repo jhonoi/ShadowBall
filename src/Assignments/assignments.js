@@ -53,7 +53,7 @@ const Assignments = () => {
     const calenderFunc = (item) => {
         return item.map((day)=>{
             let assignments =Assfunc(day,mon.dayofW+1);
-            return (<CalenderTile key={Math.random() * Math.random()} assignments={assignments.length!==0?assignments:" "} details={day} usesDay={false} />)
+            return (<CalenderTile key={Math.random() * Math.random()} assignments={assignments} details={day} usesDay={false} />)
         })
     }
 

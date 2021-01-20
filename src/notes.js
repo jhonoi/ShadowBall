@@ -7,11 +7,12 @@ import './notes.css'
 
 const Note = ()=>{
     const [highlight,setHighlight] = useState(false);
+    const [color,setColor]=useState("#63DD67");
 
     //Declartion for Editor Variables
     const styleMap ={// custom styles for heading and highlight features in notes app
         'HIGHLIGHT':{
-            backgroundColor: '#63DD67'
+            backgroundColor: color
         },
         'HEADING':{
             fontWeight: "bold",
@@ -19,7 +20,7 @@ const Note = ()=>{
             textDecoration: "underline"
         }
     }
-
+    
     const [editorState, setEditorState] = useState(// Basically this encapsulates everything in the text area , the styles , text etc.
         () => EditorState.createEmpty(),
     );
@@ -139,6 +140,7 @@ const Note = ()=>{
                     <div className='notesEffectsContainer'>
                         <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand('HEADING');}}>Heading</button>
                         <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand("HIGHLIGHT")}}>Highlight</button>
+                        <input onChange={(e)=>{ let val=e.target.value; setColor(val)}} type="color" id="favcolor" name="favcolor" value={color}></input>
                     </div>
                     <div className='notesNavContainer'>
                         <i onClick={prevPage} className="material-icons md-18">navigate_before</i>
