@@ -2,8 +2,8 @@
     width: 100%;
 }
 
-.assignments > #body > #header{
-    margin: 0;
+.assignments > #body{
+    top : 101px;
 }
 
 .assignments > #body > .setBackground{

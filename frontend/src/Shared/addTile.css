@@ -1,23 +1,14 @@
-/*.addTile{
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    box-shadow: 2px 9px 20px #E0E6FF;
-    width: 100%;
-    height: ;
-}*/
-
 .addTile{
     background-color: #FFFFFF;
     border-radius: 10px;
     box-shadow: 2px 9px 20px #E0E6FF;
-    width: 100%;
-    position: relative;
+    width: 260px;
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .addIcon{
-    position: absolute;
-    width: 12%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 24px;
 }

@@ -22,6 +22,9 @@ const Tag = (props) => {
         case 'exam':
             classTheme = 'redTagTheme'
             break
+        case 'homework':
+            classTheme = 'yellowTagTheme'
+            break
         default:
             classTheme = ''
             break
