@@ -4,7 +4,7 @@ import AddIcon from './add.js'
 
 const AddTile = (props) => {
     return(
-        <div className='addTile' style={{paddingBottom: props.paddBottom}} onClick={props.onClick}>
+        <div style={{width: props.width, height: props.height}} className='addTile' onClick={props.onClick}>
             <AddIcon class='addIcon' color='#B4C3FD' />
         </div>
     )

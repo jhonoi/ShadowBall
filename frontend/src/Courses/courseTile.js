@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './courseTile.css'
 
 const CourseTile = (props) => {
-    let type = 'yee'
+    let type
     switch(props.type){
         case 'Flashcards':
             type = 'Sets'
@@ -18,16 +19,18 @@ const CourseTile = (props) => {
     }
 
     return(
-        <div className='courseTile'>
-            <div className='header'>
-                <i style={{color:props.color}} className="material-icons md-18 icon">style</i>
-                <span style={{color:props.color}}>{props.type}</span>
+        <Link to={props.to} exact='true'>
+            <div className='courseTile'>
+                <div className='header'>
+                    <i style={{color:props.color}} className="material-icons md-18 icon">style</i>
+                    <span style={{color:props.color}}>{props.type}</span>
+                </div>
+                <div className='infoContainer'>
+                    <div style={{color:props.lightColor}} className='infoNum'>4</div>
+                    <div style={{color:props.color}} className='infoType'>{type}</div>
+                </div>
             </div>
-            <div className='infoContainer'>
-                <div style={{color:props.lightColor}} className='infoNum'>4</div>
-                <div style={{color:props.color}} className='infoType'>{type}</div>
-            </div>
-        </div>
+        </Link>
     )
 }
 

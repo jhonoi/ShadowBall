@@ -1,18 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Rosario:wght@400;500;600;700&display=swap');
 
 #sidebar{
-    background-color: #f8f9fd;
-    position: fixed;
-    left: 0;
-    height: 100%;
-    width: 17%;
+    display: none;
+}
+
+@media only screen and (min-width: 1024px){
+    #sidebar{
+        display: block;
+        background-color: #FFFFFF;
+        border-right: 1px solid #E6E9F5;;
+        position: fixed;
+        left: 0;
+        height: 100%;
+        width: 299px;
+    }
 }
 
 .logoContainer{
-    display: grid;
-    grid-template-columns: 25% auto;
-    grid-gap: 0.5em;
-    margin: 30px 10px 50px 10px;
+    display: flex;
+    margin: 30px 0;
+    justify-content: center;
 }
 
 .material-icons.md-24{
@@ -29,6 +36,7 @@
     color: #46B5E8;
     justify-self: start;
     align-self: center;
+    margin-left: 10px;
 }
 
 ul{

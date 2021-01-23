@@ -3,9 +3,8 @@
     margin: 0;
     padding: 15px;
     margin: 20px;
-    display: grid;
-    grid-template-columns: 30% auto;
-    grid-gap: 0.1em;
+    display: flex;
+    align-items: center;
 }
 
 .item:hover, .item.active{
@@ -17,14 +16,14 @@
 
 .material-icons.md-18{
     color: #46B5E8;
-    justify-self: center;
-    font-size: 1.2vw;
+    font-size: 1.4em;
+    margin: 0 20px 0 10px;
 }
 
 .title{
     display: inline-block;
     color: #5D788B;
-    font-size: 1.2vw;
+    font-size: 1.2em;
     font-weight: 400;
 }
 

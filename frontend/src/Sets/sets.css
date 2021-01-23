@@ -3,6 +3,19 @@
     height: 100%;
 }
 
-.gridContainer.setGrid{
-    width: 80%;
+.setGrid{
+    width: 98%;
+    padding-bottom: 50px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 260px);
+    grid-gap: 1rem;
+    justify-content: center;
+}
+
+@media only screen and (min-width: 1500px){
+    .setGrid{
+        width: 1100px;
+        margin: auto;
+    }
 }

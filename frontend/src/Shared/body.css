@@ -2,8 +2,14 @@
     background-color: #FFFFFF;
     position: fixed;
     right: 0;
-    top: 101px;
-    width: 83%;
+    top: 131px;
+    width: 100%;
     height: calc(100% - 101px);
     overflow-y: scroll;
+}
+
+@media only screen and (min-width: 1024px){
+    #body{
+        width: calc(100% - 300px);
+    }
 }

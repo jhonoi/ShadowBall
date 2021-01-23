@@ -3,6 +3,8 @@ p{
 }
 
 .tile{
+    width: 200px;
+    height: 200px;
     background-color: #FFFFFF;
     border-radius: 10px;
     box-shadow: 2px 9px 20px #E0E6FF;
@@ -10,13 +12,14 @@ p{
 }
 
 .tileTitle{
-    font-size: 1.5vw;
+    font-size: 1.5em;
     padding-bottom: 25px;
     font-weight: bold;
+    height: 58px;
 }
 
 .tileInfo{
-    font-size: 1vw;
+    font-size: 1em;
     padding-bottom: 25px;
     color: #7E7E7E;
     border-bottom: 1px solid #F1F4FF;

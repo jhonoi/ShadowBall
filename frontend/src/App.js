@@ -18,19 +18,19 @@ const App = () => {
           <Route path='/' exact>
             <Dashboard />
           </Route>
-          <Route path='/course' exact>
+          <Route path='/courses/:cID' exact>
             <Course />
           </Route>
-          <Route path='/sets' exact>
+          <Route path='/:cID/sets' exact>
             <Sets />
           </Route>
-          <Route path='/flashcards' exact>
+          <Route path='/:cID/sets/:set' exact>
             <Set />
           </Route>
-          <Route path='/assignments' exact>
+          <Route path='/:cID/assignments' exact>
             <Assignments />
           </Route>
-          <Route path='/notes' exact>
+          <Route path='/:cID/notes' exact>
             <Notes />
           </Route>
         </Switch>

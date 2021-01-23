@@ -5,6 +5,7 @@ import SetTile from './setTile'
 import AddTile from '../Shared/addTile'
 import CreatePrompt from '../Shared/createPrompt/createPrompt'
 import './sets.css'
+import { useParams } from 'react-router-dom'
 
 const Sets = () => {
     let [arr, setArr] = useState([
@@ -17,9 +18,10 @@ const Sets = () => {
 
     let [showPrompt, setShowPrompt] = useState(false)
     let initialRender = useRef(true)
+    let currentCourse = useParams().cID
 
     const setFunc = (item) => {
-        return (<SetTile key={arr.indexOf(item)} title={item.title} count={item.count} color={item.color} />)
+        return (<SetTile to={'/' + currentCourse + '/sets/' + item.title} key={arr.indexOf(item)} title={item.title} count={item.count} color={item.color} />)
     }
 
     const addSet = (t, c, col) => {
@@ -43,9 +45,9 @@ const Sets = () => {
             {showPrompt ? <CreatePrompt item='Set' create={addSet} hide={createPrompt} /> : null}
             <Body>
                 <Header title='Psychology Sets' color='#FFBF58' />
-                <div className='gridContainer setGrid'>
+                <div className='setGrid'>
                     {arr.map(setFunc)}
-                    <AddTile paddBottom='40%' onClick={createPrompt}></AddTile>
+                    <AddTile width='100%' height='120px' onClick={createPrompt}></AddTile>
                 </div>
             </Body>
         </div>
