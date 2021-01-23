@@ -35,7 +35,7 @@ const Dashboard = () => {
                 <div className='courseContainer'>
                     <div className='courseGrid'>
                         {courseArr.map(populateCourseList)}
-                        <AddTile onClick={add} />
+                        <AddTile width='260px' height='260px' onClick={add} />
                     </div>
                 </div>
             </Body>

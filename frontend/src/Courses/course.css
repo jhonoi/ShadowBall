@@ -6,6 +6,7 @@
 .courseContainer{
     width: 95%;
     margin: auto;
+    padding-bottom: 50px;
 }
 
 .scheduleContainer, #assignText{

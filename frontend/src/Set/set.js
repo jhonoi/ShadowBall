@@ -6,9 +6,11 @@ import DeleteIcon from '../Shared/delete.js'
 import CardPopUp from './cardPopUp'
 import DeletePopUp from '../Shared/deletePopUp/deletePopUp'
 import './set.css'
+import { useParams } from 'react-router-dom'
 
 const Set = () => {
 
+    let currentSet = useParams().set
     let [arr, setArr] = useState([
         {question: 'What is the mitochondria?', ans: ''},
         {question: 'True of False, the Hippocampus is responsible for the body\'s movement', ans: ''},
@@ -44,10 +46,10 @@ const Set = () => {
 
     const populateList = (item) => {
         return (
-            <div onClick={() => listItemClick(item)}
+            <div className='cardListContent' onClick={() => listItemClick(item)}
                 style={arr.indexOf(item) === index ? {color: '#63DD67', fontWeight: 400} : {color: '#5D788B', fontWeight: 300}}
                 key={arr.indexOf(item)}>
-                {item.question.length > 35 ? `${item.question.slice(0, 33)}...` : item.question}
+                {/*item.question.length > 35 ? `${item.question.slice(0, 33)}...` : item.question*/ item.question}
             </div>
         )
     }
@@ -121,7 +123,7 @@ const Set = () => {
             {showCreatePopUp ? <CardPopUp operation={operationMode.current} term={currentCard.q} definition={currentCard.a} edit={editItemInArr} create={addToArr} hide={createPopUp} /> : null}
             {showDeletePopUp ? <DeletePopUp remove={removeFromArr} item='card' hide={deletePopUp} /> : null}
             <Body>
-                <Header title='Subconsciousness Set' color='#63DD67' />
+                <Header title={currentSet + ' Set'} color='#63DD67' />
                 <div className='setBackground'>
                     <div className='cardList'>{arr.map(populateList)}</div>
                     <div className='cardContainer'>

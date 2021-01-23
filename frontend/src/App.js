@@ -24,7 +24,7 @@ const App = () => {
           <Route path='/:cID/sets' exact>
             <Sets />
           </Route>
-          <Route path='/flashcards' exact>
+          <Route path='/:cID/sets/:set' exact>
             <Set />
           </Route>
           <Route path='/:cID/assignments' exact>

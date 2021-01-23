@@ -1,9 +1,11 @@
 .popUpContainer{
-    width: 30%;
+    /*width: 30%;*/
+    width: 290px;
     background-color: #FFFFFF;
     border-radius: 10px;
     box-shadow: 2px 9px 20px #E0E6FF;
-    padding: 2%;
+    padding: 4%;
+    /*padding: 2%*/
     position: fixed;
     z-index: 15;
     top: 50%;
@@ -69,4 +71,18 @@
     font-weight: 500;
     color: #5D788B;
     margin-right: 20px;
+}
+
+@media only screen and (min-width: 768px){
+    .popUpContainer{
+        width: 40%;
+        padding: 2%;
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    .popUpContainer{
+        width: 30%;
+        padding: 2%;
+    }
 }
