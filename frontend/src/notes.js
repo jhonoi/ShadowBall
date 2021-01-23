@@ -1,13 +1,24 @@
 import React, { useState, useEffect, useRef } from "react"
 import {notes} from './databse.js'
-import {Editor, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding} from 'draft-js';
+import {Editor, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding,convertToRaw} from 'draft-js';
 import Body from './Shared/body'
 import Header from './Shared/header'
+import debounce from "lodash.debounce"
 import './notes.css'
+import Axios from "axios"
+
 
 const Note = ()=>{
+    //console.log(notes);
+    
     const [highlight,setHighlight] = useState(false);
     const [color,setColor]=useState("#63DD67");
+    //INTERCHANGEABLE NOTE SECTION
+    const [page,setPage]=useState({//tracks the current page , total pages and the type of change that occurs everytime
+        currpage:1,
+        totalpages:1,
+        typeofchange:"increase"
+    });
 
     //Declartion for Editor Variables
     const styleMap ={// custom styles for heading and highlight features in notes app
@@ -22,14 +33,14 @@ const Note = ()=>{
     }
     
     const [editorState, setEditorState] = useState(// Basically this encapsulates everything in the text area , the styles , text etc.
-        () => EditorState.createEmpty(),
+        () => {
+            if(notes.length!==0){
+                return notes[0];
+            }else{
+                return EditorState.createEmpty()
+            }},
     );
-//INTERCHANGEABLE NOTE SECTION
-    const [page,setPage]=useState({//tracks the current page , total pages and the type of change that occurs everytime
-        currpage:1,
-        totalpages:1,
-        typeofchange:"increase"
-    });
+
     
     // }
     useEffect(()=>{
@@ -50,8 +61,27 @@ const Note = ()=>{
     },[page]);//only occurs when the currpage changes
     useEffect(()=>{
         notes[page.currpage-1]=editorState;
+        //console.log(newNotes);
+        
+        
     },[editorState,page.currpage]);//everytime the editor changes the database is updated with the new state
 
+    const autosave = (notes)=>
+    {
+        let newNotes=[];
+        console.log(notes.length);
+        
+        for(var x=0;x<notes.length;x++)
+        {
+            newNotes.push(JSON.stringify(convertToRaw(notes[x].getCurrentContent())));
+            //console.log(newNotes[x]);
+        }
+        console.log(newNotes);
+        
+        
+        Axios.post("api/notes/Beerus1",newNotes,{headers:{"Content-Type":"application/json"}}).then(()=>{console.log("yurr")}).catch((e)=>{console.log(e);
+        });
+    }
     const nextPage =()=>{//changes to the next page
         setPage(()=>{
             return({
@@ -134,6 +164,8 @@ const Note = ()=>{
                         onChange={setEditorState}
                         handleKeyCommand={handleKeyCommand}
                         keyBindingFn={KeyBindingFunct}
+                        onBlur={()=>{
+                            autosave(notes);}}
                     />
                 </div>
                 <div className='notesControlsContainer'>
