@@ -36,7 +36,7 @@ const CalenderTile = (props) => {
             return(
                 <div className='calTile'>
                     <div className='date'>{props.details}</div>
-                    <div className='day'>S</div>  {/*-------------------------EH BWOY BUREY FIX DIS BREDDA.-----------------------*/}
+            <div className='day'>{props.day}</div>  {/*-------------------------Suck yuh mada it fix now-----------------------*/}
                 </div>
             )
         }

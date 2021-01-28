@@ -19,6 +19,8 @@ const CreatePrompt = (props) => {
     const handleCreate = () => {
         if(name !== ''){
             props.create(name, 0, colorClicked.current)
+            console.log(colorClicked.current);
+            
         }
     }
 

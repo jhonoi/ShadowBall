@@ -3,53 +3,69 @@ import Header from '../Shared/header'
 import Body from '../Shared/body'
 import SetTile from './setTile'
 import AddTile from '../Shared/addTile'
+import Axios from "axios"
 import CreatePrompt from '../Shared/createPrompt/createPrompt'
 import './sets.css'
 import { useParams } from 'react-router-dom'
 
 const Sets = () => {
-    let [arr, setArr] = useState([
-        {title: 'Neurology', count: 1, color: '#FF746A'},
-        {title: 'Dreams State', count: 24, color: '#46B5E8'},
-        {title: 'Freud', count: 16, color: '#9A7CE4'},
-        {title: 'Subconscious', count: 19, color: '#FFBF58'},
-        {title: 'Brain', count: 31, color: '#46B5E8'}
-    ])
+    
+    let currentCourse = useParams().cID
+    let [arr, setArr] = useState(["stuff"]);
+    useEffect(() =>{
+        const DB =async ()=>{
+            let url="/api/sets/"+currentCourse;
+           Axios.get(url,{headers:{"Content-Type":"application/json"}}).then((res)=>{
+            return res.data.Sets}).then((data)=>{
+                
+                setArr([...data]);
+           });
+        }
+        DB();
+    },[])
 
     let [showPrompt, setShowPrompt] = useState(false)
     let initialRender = useRef(true)
-    let currentCourse = useParams().cID
 
     const setFunc = (item) => {
-        return (<SetTile to={'/' + currentCourse + '/sets/' + item.title} key={arr.indexOf(item)} title={item.title} count={item.count} color={item.color} />)
+        let x=0;
+        return (<SetTile to={'/' + currentCourse + '/sets/' + item.Title+"/"+item._id} key={arr.indexOf(item)} title={item.Title} count={item.Count} color={item.Colour} />)
     }
 
-    const addSet = (t, c, col) => {
-        setArr([...arr, {title: t, count: c, color: col}])
+    const addSet = (t,col) => {
+        const DB =async ()=>{
+            let url="/api/sets/"+currentCourse;
+           Axios.post(url,{Title:t,Colour:col},{headers:{"Content-Type":"application/json"}});
+           setArr([...arr,{Title:t,Count:0,Colour:col}]);
+        }
+        DB();
+        
     }
 
     const createPrompt = () => {
         setShowPrompt(!showPrompt)
+        console.log(!showPrompt);
+        
     }
 
-    useEffect(()=>{
-        if(initialRender.current){
-            initialRender.current = false
-        }else{
-            setShowPrompt(!showPrompt)
-        }
+    useEffect(()=>{ 
+        setShowPrompt(false)
     }, [arr])
 
     return(
-        <div className='setContainer'>
-            {showPrompt ? <CreatePrompt item='Set' create={addSet} hide={createPrompt} /> : null}
-            <Body>
-                <Header title='Psychology Sets' color='#FFBF58' />
-                <div className='setGrid'>
-                    {arr.map(setFunc)}
-                    <AddTile width='100%' height='120px' onClick={createPrompt}></AddTile>
-                </div>
-            </Body>
+        <div>
+            {arr[0]==="stuffs"?<h1>Loading</h1>:
+            <div className='setContainer'>
+                {showPrompt ? <CreatePrompt item='Set' create={addSet} hide={createPrompt} /> : null}
+                <Body>
+                    <Header title='Psychology Sets' color='#FFBF58' />
+                    <div className='setGrid'>
+                        {arr.map(setFunc)}
+                        <AddTile width='100%' height='120px' onClick={createPrompt}></AddTile>
+                    </div>
+                </Body>
+            </div>
+        }
         </div>
     )
 }

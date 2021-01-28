@@ -164,8 +164,6 @@ const Note = ()=>{
                         onChange={setEditorState}
                         handleKeyCommand={handleKeyCommand}
                         keyBindingFn={KeyBindingFunct}
-                        onBlur={()=>{
-                            autosave(notes);}}
                     />
                 </div>
                 <div className='notesControlsContainer'>

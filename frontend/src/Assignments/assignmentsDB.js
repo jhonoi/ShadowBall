@@ -1,40 +1,17 @@
-let assignmentsDB = [
-    {
-        "Title":"French Hw",
-        dueDate:[4,1,2021],
-        desc:"study all female pronounciations of the word aller",
-        type:"Exam"            
-    },{
-        "Title":"stuffs",
-        dueDate:[19,1,2021],
-        desc:"ssomne other stuffs of the word aller",
-        type:"Exam"
-    },{
-        "Title":"stuffs",
-        dueDate:[21,1,2021],
-        desc:"ssomne other stuffs of the word aller",
-        type:"Exam"
-    },{
-        "Title":"stuffs",
-        dueDate:[21,1,2021],
-        desc:"ssomne other stuffs of the word aller",
-        type:"Quiz"
-    },{
-        "Title":"stuffs",
-        dueDate:[21,1,2021],
-        desc:"ssomne other stuffs of the word aller",
-        type:"Paper"
-    },{
-        "Title":"stuffs",
-        dueDate:[22,1,2021],
-        desc:"ssomne other stuffs of the word aller",
-        type:"Homework"
-    },{
-        "Title":"stuffs",
-        dueDate:[22,1,2021],
-        desc:"ssomne other stuffs of the word aller",
-        type:"Paper"
-    }
-]
+import Axios from "axios";
+import { useState } from "react";
+const DB =(cid)=>{
+    
+    let assignmentsDB;
+    let url="/api/assignments/"+cid;
+    Axios.get(url,{headers:{"Content-Type":"application/json"}}).then((res)=>{
+        assignmentsDB=res.data.Assignments;
+    }).catch((err)=>{
+        return err;
+    })
+    //console.log(assigns);
+    
+    
+}
 
-export  {assignmentsDB};
+export  {DB};

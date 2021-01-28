@@ -1,12 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import './assignments.css'
 import Body from '../Shared/body'
 import Header from '../Shared/header'
 import CalenderTile from '../Shared/calenderTile/calenderTile'
 import CalFunc from '../Shared/calFunc'
-import Assfunc from './assFunc'
+import Assfunc,{assignments} from './assFunc'
+import debounce from "lodash.debounce"
+import {DB} from "./assignmentsDB"
+import { useParams } from 'react-router-dom'
+import Axios from "axios"
 
 const Assignments = () => {
+    let cid=useParams().cID;
+    let assignmentsDB=[];
+    let days=["S","M","T","W","T","F","S"];
+    const [mounted, setMounted] = useState([])
+    useEffect(() =>{
+
+        const DB =async ()=>{
+            let url="/api/assignments/"+cid;
+           assignmentsDB= Axios.get(url,{headers:{"Content-Type":"application/json"}}).then((res)=>{
+            return res.data.Assignments}).then((data)=>{
+                //console.log(data);
+                
+                setMounted([...data]);
+           });
+        }
+        DB();
+       
+    
+        //setMounted(true)
+    },[])
+    
+    console.log(mounted);
+   
     const [mon, setD] = useState({
         dayss: new Date().getMonth(),
         dayofW: new Date().getMonth()
@@ -44,15 +71,18 @@ const Assignments = () => {
         })
     }
     let dummyAssignments = CalFunc(mon)
-    console.log(dummyAssignments)
+    //console.log(dummyAssignments);
     
-    
-    
-    
-
     const calenderFunc = (item) => {
         return item.map((day)=>{
-            let assignments =Assfunc(day,mon.dayofW+1);
+            
+            let assignments;
+            if(mounted.length===0){
+                assignments=[];
+            }else{
+                assignments=Assfunc(day,mon.dayofW+1,mounted);
+            }
+            
             return (<CalenderTile key={Math.random() * Math.random()} assignments={assignments} details={day} usesDay={false} />)
         })
     }

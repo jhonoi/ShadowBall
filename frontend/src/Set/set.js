@@ -3,6 +3,7 @@ import Header from '../Shared/header'
 import Body from '../Shared/body'
 import AddIcon from '../Shared/add.js'
 import DeleteIcon from '../Shared/delete.js'
+import Axios from "axios"
 import CardPopUp from './cardPopUp'
 import DeletePopUp from '../Shared/deletePopUp/deletePopUp'
 import './set.css'
@@ -11,20 +12,32 @@ import { useParams } from 'react-router-dom'
 const Set = () => {
 
     let currentSet = useParams().set
-    let [arr, setArr] = useState([
-        {question: 'What is the mitochondria?', ans: ''},
-        {question: 'True of False, the Hippocampus is responsible for the body\'s movement', ans: ''},
-        {question: 'Swiggity Swooty, I\'m coming for that booty?', ans: ''},
-        {question: 'What\'s that, facts? Contract max, I gotta bring this ish back.', ans: ''}
-    ])
+    
+    let setId = useParams().setId;
+    
+    let [arr, setArr] = useState([])
+    useEffect(() =>{
+        const DB =async ()=>{
+            let url="/api/flashcards/"+setId;
+           Axios.get(url,{headers:{"Content-Type":"application/json"}}).then((res)=>{
+            return res.data.flashcard}).then((data)=>{
+                
+                setArr([...data]);
+                console.log(data);
+                
+           });
+        }
 
-    let [index, setIndex] = useState(0)
-    let [showCreatePopUp, setShowCreatePopUp] = useState(false)
-    let [showDeletePopUp, setShowDeletePopUp] = useState(false)
+        DB();
+    },[])
+
+    const [index, setIndex] = useState(0)
+    const [showCreatePopUp, setShowCreatePopUp] = useState(false)
+    const [showDeletePopUp, setShowDeletePopUp] = useState(false)
     let initialRender = useRef(true)
     let justDeleted = useRef(false)
     let deletedLastItem = useRef(false)
-    let [currentCard, setCurrentCard] = useState({q: '', a: ''})
+    const [currentCard, setCurrentCard] = useState({q: '', a: ''})
     let editClicked = useRef(false)
     let operationMode = useRef('')
 
@@ -49,7 +62,7 @@ const Set = () => {
             <div className='cardListContent' onClick={() => listItemClick(item)}
                 style={arr.indexOf(item) === index ? {color: '#63DD67', fontWeight: 400} : {color: '#5D788B', fontWeight: 300}}
                 key={arr.indexOf(item)}>
-                {/*item.question.length > 35 ? `${item.question.slice(0, 33)}...` : item.question*/ item.question}
+                {/*item.Question.length > 35 ? `${item.Question.slice(0, 33)}...` : item.Question*/ item.Question}
             </div>
         )
     }
@@ -63,7 +76,8 @@ const Set = () => {
     const editPopUp = () => {
         editClicked.current = true
         operationMode.current = 'Edit'
-        setCurrentCard({q: arr[index].question, a: arr[index].ans})
+        
+        setCurrentCard(()=>{return({q:arr[index].Question,a:arr[index].Ans})})
     }
 
     const deletePopUp = () => {
@@ -71,26 +85,53 @@ const Set = () => {
     }
 
     const addToArr = (q, a) => {
-        setArr([...arr, {question: q, ans: a}])
+        const DB =async ()=>{
+            let url="/api/flashcards/"+setId;
+           await Axios.post(url,{Question:q,Ans:a},{headers:{"Content-Type":"application/json"}}).then((res)=>{
+               console.log(res.data);
+               
+            setArr([...arr, {Question: q,_id:res.data.flashcard, Ans: a}])
+           });
+        }
+
+        DB();
+        
     }
 
     const removeFromArr = () => {
-        justDeleted.current = true
-        if(index === (arr.length - 1)){
-            deletedLastItem.current = true
-            setIndex(index - 1)
-        }else{
-            setArr(arr.filter(item => item !== arr[index]))
+        const DB =async ()=>{
+            let url="/api/flashcards/"+setId+"/"+arr[index]._id;
+            Axios.delete(url,{headers:{"Content-Type":"application/json"}}).then(()=>{
+                justDeleted.current = true
+                if(index === (arr.length - 1)){
+                    deletedLastItem.current = true
+                
+                    setIndex(index - 1)
+                }else{
+                    setArr(arr.filter(item => item !== arr[index]))
+                }
+           });
+           
         }
+
+        DB();
+        
     }
 
-    const editItemInArr = (q, a) => {
-        setArr(arr.map((item)=>{
+    const editItemInArr = (Question, Ans) => {
+        const DB =async ()=>{
+            let url="/api/flashcards/"+arr[index]._id;
+           await Axios.patch(url,{Question,Ans},{headers:{"Content-Type":"application/json"}});
+           setArr(arr.map((item)=>{
             if(item === arr[index]){
-                item = {question: q, ans: a}
+                item = {Question, Ans}
             }
             return item
         }))
+        }
+
+        DB();
+        
     }
 
     useEffect(() => {
@@ -100,8 +141,9 @@ const Set = () => {
             justDeleted.current = false
             setShowDeletePopUp(!showDeletePopUp)
         }else{
-            setShowCreatePopUp(!showCreatePopUp)
+            setShowCreatePopUp(false)
         }
+        
     }, [arr])
 
     useEffect(() => {
@@ -127,7 +169,7 @@ const Set = () => {
                 <div className='setBackground'>
                     <div className='cardList'>{arr.map(populateList)}</div>
                     <div className='cardContainer'>
-                        <div className='card' style={{color: '#63DD67'}}>{arr[index].question}</div>
+                        <div className='card' style={{color: '#63DD67'}}>{arr.length!==0?arr[index].Question:null}</div>
                         <div className='cardNav'>
                             <i onClick={() => prevCard()} className="material-icons md-18">navigate_before</i>
                             <span className='cardPosition'>{index + 1}/{arr.length}</span>

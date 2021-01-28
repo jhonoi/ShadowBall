@@ -27,13 +27,13 @@ app.get("/:uid",async (req,res,next)=>{
         }
     })
     
-    console.log(uid);
-    try{
-        await Notes.save();
-    }catch(err){
-        console.log(err);
+    // console.log(uid);
+    // try{
+    //     await Notes.save();
+    // }catch(err){
+    //     console.log(err);
         
-    }
+    // }
     //res.status(201).send(Notes);
 
 })
