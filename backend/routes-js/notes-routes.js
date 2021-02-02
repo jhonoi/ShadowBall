@@ -8,59 +8,74 @@ const app=exp.Router();
 app.use(bp.urlencoded({extended:true}));
 
 app.use(bp.json());
+app.post("/:cid",async(req,res,next)=>{
+    courseId=req.params.cid;
+    const {notes}=req.body;
 
-app.get("/:uid",async (req,res,next)=>{
-    const uid=req.params.uid;
-    const Notes = new notesModel({
-        id:uid,
-        notes:[]
-    })   
-
-    notesModel.findOne({id:uid},(err,foundNotes)=>{
-        if(err)
-        {
-            console.log(err);
-            
-        }else{
-            console.log(foundNotes.notes);
-            res.status(201).send(foundNotes.notes);
-        }
+    const Note = notesModel({
+        notes,
+        courseId,
     })
-    
-    // console.log(uid);
-    // try{
-    //     await Notes.save();
-    // }catch(err){
-    //     console.log(err);
-        
-    // }
-    //res.status(201).send(Notes);
+    try {
+        await Note.save();
+    } catch (error) {
+        return next(error);
+    }
+    res.status(201).json({Note:Note._id});
 
 })
 
-app.post("/:uid",(req,res,next)=>{
-    const notes=req.body;
-    const uid=req.params.uid
-    const Notes = new notesModel({
-        id:uid,
-        notes:notes
-    }) 
-    
+app.get("/:cid",async (req,res,next)=>{
 
-    notesModel.updateOne({id:uid},{notes:notes},(err)=>{
-        if(err)
-        {
-            console.log(err);
-            
-        }else{
-            console.log("it update brrrr");
-           console.log(notes);
-            
-            
-        }
-    })
-    //res.status(201).json({notes:Notes});
+    const courseId=req.params.cid;
+    let Note;
+    try {
+        Note= await notesModel.find({courseId});
+    } catch (error) {
+        return next(error);
+    }
+    
+    console.log(Note);
+    res.status(201).json({Notes:Note});
+})
+
+app.patch("/:nid",async(req,res,next)=>{
+    const notesId=req.params.nid;
+    let Note;
+    try {
+        Note= await notesModel.findById({_id:notesId});
+    } catch (error) {
+        return next(error);
+    }
+    const {notes}=req.body;
+    if(notes!==null)
+    {
+        Note.notes=notes;
+    }
+    try {
+        await Note.save();
+    } catch (error) {
+        return next(error);
+    }
+    res.status(201).json({Note:Note});
 
 })
+app.delete("/:nid",async(req,res,next)=>{
+    const notesId=req.params.nid;
+    let Note;
+    try {
+        Note= await notesModel.findById({_id:notesId});
+    } catch (error) {
+        return next(error);
+    }
+    try {
+        await Note.remove();
+    } catch (error) {
+        return next(error);
+    }
+    res.status(201).json({Note:Note});
+
+})
+
 
 module.exports=app;

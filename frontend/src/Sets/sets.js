@@ -44,7 +44,6 @@ const Sets = () => {
 
     const createPrompt = () => {
         setShowPrompt(!showPrompt)
-        console.log(!showPrompt);
         
     }
 

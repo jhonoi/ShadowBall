@@ -1,15 +1,49 @@
 import React, { useState, useEffect, useRef } from "react"
-import {notes} from './databse.js'
-import {Editor, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding,convertToRaw} from 'draft-js';
+import {Editor, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding,convertToRaw,convertFromRaw} from 'draft-js';
+//import {notes} from "./databse"
 import Body from './Shared/body'
 import Header from './Shared/header'
 import debounce from "lodash.debounce"
 import './notes.css'
 import Axios from "axios"
+import { useParams } from 'react-router-dom'
 
 
 const Note = ()=>{
-    //console.log(notes);
+    const cid=useParams().cID;
+    const [notes,setNotes]=useState(["stuffs"]);
+
+    useEffect(()=>{
+        const DB=async()=>{
+            let url="/api/notes/"+cid;
+             Axios.get(url,{headers:{"Content-Type":"application/json"}}).then((res)=>{return res.data}).then((data)=>{
+                let newobj=data.Notes;
+                console.log(newobj);
+                for(var x=0;x<newobj.length;x++)
+                {
+                    newobj[x].notes=EditorState.createWithContent(convertFromRaw(JSON.parse(newobj[x].notes)));
+                    console.log(newobj[x].notes);
+                    
+                }
+                if(notes[0]==="stuff")
+                {
+                    setNotes([]);
+                }
+                if(newobj.length===0)
+                {
+                    setEditorState(createNote(notes));
+                }else{
+                    setNotes([...newobj]);
+                    setEditorState(newobj[0].notes)
+                }
+                
+            }
+                ).catch((e)=>{console.log(e);
+            });
+        }
+        DB();
+        
+    },[]);
     
     const [highlight,setHighlight] = useState(false);
     const [color,setColor]=useState("#63DD67");
@@ -17,7 +51,7 @@ const Note = ()=>{
     const [page,setPage]=useState({//tracks the current page , total pages and the type of change that occurs everytime
         currpage:1,
         totalpages:1,
-        typeofchange:"increase"
+        typeofchange:"decrease"
     });
 
     //Declartion for Editor Variables
@@ -34,11 +68,18 @@ const Note = ()=>{
     
     const [editorState, setEditorState] = useState(// Basically this encapsulates everything in the text area , the styles , text etc.
         () => {
-            if(notes.length!==0){
-                return notes[0];
+            if(notes[0]!=="stuffs")
+            {
+                if(notes.length!==0){
+                    return notes[0].notes;
+                }else{
+                    return EditorState.createEmpty()
+                }
             }else{
                 return EditorState.createEmpty()
-            }},
+            }
+        }
+            
     );
 
     
@@ -46,13 +87,16 @@ const Note = ()=>{
     useEffect(()=>{
         if(page.typeofchange==="increase")
         {
-           setEditorState(page.currpage===page.totalpages&&notes[page.currpage-1]===undefined?EditorState.createEmpty():notes[page.currpage-1]);
+            console.log(page.currpage-1);
+            
+           setEditorState(page.currpage===page.totalpages&&notes[page.currpage-1]===undefined?createNote(notes):notes[page.currpage-1].notes);
            /*if current page equal total pages aka the last page (3/3) , if this page is undefined it creates an empty state else it
             stores whatever is currently in the editor*/
             
         }else if(page.typeofchange==="decrease")
         {
-            setEditorState(page.currpage===page.totalpages&&notes[page.currpage-1]!==""?EditorState.createEmpty():notes[page.currpage-1]);
+           
+            setEditorState(page.currpage===page.totalpages&&notes[page.currpage-1].notes!==""?EditorState.createEmpty():notes[page.currpage-1].notes);
              /*if current page equal total pages aka the last page (3/3) , if this page is empty it creates an empty state else it
             stores whatever is currently in the editor*/
         }
@@ -60,26 +104,48 @@ const Note = ()=>{
         
     },[page]);//only occurs when the currpage changes
     useEffect(()=>{
-        notes[page.currpage-1]=editorState;
+        if(notes[0]!=="stuffs"){
+           // console.log(notes[page.currpage-1].notes);
+            if(notes[page.currpage-1]!==undefined)
+            {
+                Save(notes);
+                notes[page.currpage-1].notes=editorState;
+            }
+        }
         //console.log(newNotes);
         
         
-    },[editorState,page.currpage]);//everytime the editor changes the database is updated with the new state
+    },[editorState]);//everytime the editor changes the database is updated with the new state
 
-    const autosave = (notes)=>
+    const createNote = (notes)=>
     {
-        let newNotes=[];
-        console.log(notes.length);
-        
-        for(var x=0;x<notes.length;x++)
-        {
-            newNotes.push(JSON.stringify(convertToRaw(notes[x].getCurrentContent())));
-            //console.log(newNotes[x]);
+        let newNotes="";
+        let notess={
+            courseId:cid,
+            notes:EditorState.createEmpty(),
+            _id:""
         }
-        console.log(newNotes);
-        
-        
-        Axios.post("api/notes/Beerus1",newNotes,{headers:{"Content-Type":"application/json"}}).then(()=>{console.log("yurr")}).catch((e)=>{console.log(e);
+        newNotes=JSON.stringify(convertToRaw(notess.notes.getCurrentContent()));
+        //console.log(notess);
+        let url="/api/notes/"+cid;
+        Axios.post(url,{notes:newNotes},{headers:{"Content-Type":"application/json"}}).then((res)=>{
+            //console.log(res.data.Note);
+            notess._id=res.data.Note; 
+            setNotes([...notes,notess])
+        }).catch((e)=>{
+                console.log(e);
+        });
+        return notess.notes;
+    }
+    const Save=(notes)=>{
+        let newNotes="";
+        newNotes=JSON.stringify(convertToRaw(notes[page.currpage-1].notes.getCurrentContent()));
+        //console.log(notess);
+        let url="/api/notes/"+notes[page.currpage-1]._id;
+        Axios.patch(url,{notes:newNotes},{headers:{"Content-Type":"application/json"}}).then(()=>{
+            console.log("patched");
+        }).catch((e)=>{
+                console.log(e);
         });
     }
     const nextPage =()=>{//changes to the next page
@@ -140,45 +206,51 @@ const Note = ()=>{
         }
     }
 
-    if(editorState.getSelection().isCollapsed()&&highlight){
-        const neditorState = RichUtils.toggleInlineStyle(editorState, "HIGHLIGHT");
-
-        if (neditorState) {
-            setEditorState(neditorState);
-            setHighlight(false);
-            return 'handled';
-        }
-        return 'not-handled';
-
-    }
+    // if(editorState!==undefined)
+    // {
+    //     if(editorState.getSelection().isCollapsed()&&highlight){
+    //         const neditorState = RichUtils.toggleInlineStyle(editorState, "HIGHLIGHT");
+    
+    //         if (neditorState) {
+    //             setEditorState(neditorState);
+    //             setHighlight(false);
+    //             return 'handled';
+    //         }
+    //         return 'not-handled';
+    
+    //     }
+    // }
 
     //END OF EDITOR CODE
-    return (
-        <div className='notes'>
-            <Body>
-                <Header title='Psychology Notes' color='#63DD67' />
-                <div className='editorContainer'>
-                    <Editor
-                        customStyleMap={styleMap} 
-                        editorState={editorState}
-                        onChange={setEditorState}
-                        handleKeyCommand={handleKeyCommand}
-                        keyBindingFn={KeyBindingFunct}
-                    />
-                </div>
-                <div className='notesControlsContainer'>
-                    <div className='notesEffectsContainer'>
-                        <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand('HEADING');}}>Heading</button>
-                        <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand("HIGHLIGHT")}}>Highlight</button>
-                        <input onChange={(e)=>{ let val=e.target.value; setColor(val)}} type="color" id="favcolor" name="favcolor" value={color}></input>
+    return (<div>
+            {notes[0]==="stuffs"?<h1>Loading</h1>:
+            <div className='notes'>
+                <Body>
+                    <Header title='Psychology Notes' color='#63DD67' />
+                    <div className='editorContainer'>
+                        <Editor
+                            customStyleMap={styleMap} 
+                            editorState={editorState}
+                            onChange={setEditorState}
+                            handleKeyCommand={handleKeyCommand}
+                            keyBindingFn={KeyBindingFunct}
+                        />
                     </div>
-                    <div className='notesNavContainer'>
-                        <i onClick={prevPage} className="material-icons md-18">navigate_before</i>
-                        <span className='cardPosition'>{page.currpage}/{page.totalpages}</span>
-                        <i onClick={nextPage} className="material-icons md-18">navigate_next</i>
+                    <div className='notesControlsContainer'>
+                        <div className='notesEffectsContainer'>
+                            <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand('HEADING');}}>Heading</button>
+                            <button onMouseDown={(e)=>{e.preventDefault(); handleKeyCommand("HIGHLIGHT")}}>Highlight</button>
+                            <input onChange={(e)=>{ let val=e.target.value; setColor(val)}} type="color" id="favcolor" name="favcolor" value={color}></input>
+                        </div>
+                        <div className='notesNavContainer'>
+                            <i onClick={prevPage} className="material-icons md-18">navigate_before</i>
+                            <span className='cardPosition'>{page.currpage}/{page.totalpages}</span>
+                            <i onClick={nextPage} className="material-icons md-18">navigate_next</i>
+                        </div>
                     </div>
-                </div>
-            </Body>
+                </Body>
+            </div>
+            }
         </div>
     )    
 }
