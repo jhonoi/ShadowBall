@@ -11,7 +11,8 @@ import { useParams } from 'react-router-dom'
 
 const Note = ()=>{
     const cid=useParams().cID;
-    const [notes,setNotes]=useState(["stuffs"]);
+    const [notes,setNotes]=useState([]);
+    const [loaded,setLoaded]=useState(false);
 
     useEffect(()=>{
         const DB=async()=>{
@@ -25,16 +26,21 @@ const Note = ()=>{
                     console.log(newobj[x].notes);
                     
                 }
-                if(notes[0]==="stuff")
-                {
-                    setNotes([]);
-                }
                 if(newobj.length===0)
                 {
+                    setLoaded(true);
                     setEditorState(createNote(notes));
                 }else{
                     setNotes([...newobj]);
                     setEditorState(newobj[0].notes)
+                    setPage(()=>{
+                        return{
+                            currpage:page.currpage,
+                            totalpages:newobj.length,
+                            typeofchange:page.typeofchange      
+                        }
+                    })
+                    setLoaded(true);
                 }
                 
             }
@@ -51,7 +57,7 @@ const Note = ()=>{
     const [page,setPage]=useState({//tracks the current page , total pages and the type of change that occurs everytime
         currpage:1,
         totalpages:1,
-        typeofchange:"decrease"
+        typeofchange:""
     });
 
     //Declartion for Editor Variables
@@ -223,7 +229,7 @@ const Note = ()=>{
 
     //END OF EDITOR CODE
     return (<div>
-            {notes[0]==="stuffs"?<h1>Loading</h1>:
+            {loaded===false?<h1>{()=>{setLoaded(false)}}Loading</h1>:
             <div className='notes'>
                 <Body>
                     <Header title='Psychology Notes' color='#63DD67' />

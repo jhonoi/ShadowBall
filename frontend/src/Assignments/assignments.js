@@ -35,7 +35,7 @@ const Assignments = () => {
     console.log(mounted);
    
     const [mon, setD] = useState({
-        dayss: new Date().getMonth(),
+        dayss: new Date().getMonth()+1,
         dayofW: new Date().getMonth()
     })
  
